@@ -6,9 +6,9 @@ Hi! I'm a passionate computer science student looking to apply my skillset towar
 
 ### Find out more
 
-Check out my website: [https://thenathan.space](https://thenathan.space)
+**Portfolio website**: [https://thenathan.space](https://thenathan.space)
 
-Or my resume: [https://thenathan.space/resume](https://thenathan.space/assets/files/Nathan_Panzer_Resume_2023.pdf)
+**Resume**: [https://thenathan.space/resume](https://thenathan.space/assets/files/Nathan_Panzer_Resume_2023.pdf)
 
 ---
 
