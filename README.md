@@ -39,3 +39,7 @@ Here's a highlight of some of my projects:
 [ ] Car BPM—store car turn signal BPMs, interface with Spotify account to search through their favorite songs and [get BPM](https://developer.spotify.com/documentation/web-api/reference/#/operations/get-audio-analysis) (will need to cache song BPMs), serve through Flask
 
 [ ] Rank tracks on a Spotify playlist in head-to-head song comparisons using something like the Condorcet method
+
+[ ] Build RESTful API (maybe for Car BPM?)
+
+[ ] Docker
