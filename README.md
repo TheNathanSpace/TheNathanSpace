@@ -1,6 +1,6 @@
 ### About me
 
-Hi! I'm a passionate computer science student looking to apply my skillset towards more complex challenges in industry. I'm currently a sophomore working towards a BS in Computer Science at Colorado School of Mines. My experience comes from a large number of portfolio projects demonstrating advanced knowledge of many technologies—take a look at some of what I've done!
+Hi! I'm currently a sophomore working towards a B.S. in Computer Science at Colorado School of Mines. I'm a passionate computer science student looking to apply my skillset towards more complex challenges in industry. My experience comes from a large number of portfolio projects demonstrating advanced knowledge of many technologies—take a look at some of what I've done!
 
 ---
 
@@ -33,3 +33,9 @@ Here's a highlight of some of my projects:
 | [iDeemYouWorthy (Music syncer)](https://github.com/TheNathanSpace/iDeemYouWorthy)                   | Python                        |
 | [Unscrobbler](https://github.com/TheNathanSpace/Unscrobbler)                                        | Python, Selenium              |
 | [https://thenathan.space](https://thenathan.space)                                                  | Apache Server, HTML/CSS       |
+
+### To-Do:
+
+[ ] Car BPM—store car turn signal BPMs, interface with Spotify account to search through their favorite songs and [get BPM](https://developer.spotify.com/documentation/web-api/reference/#/operations/get-audio-analysis) (will need to cache song BPMs), serve through Flask
+
+[ ] Rank tracks on a Spotify playlist in head-to-head song comparisons using something like the Condorcet method
