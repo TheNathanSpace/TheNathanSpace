@@ -1,14 +1,25 @@
-### About me
+## About me
 
-Hi! I'm currently a sophomore working towards a B.S. in Computer Science at Colorado School of Mines. I'm a passionate computer science student looking to apply my skillset towards more complex challenges in industry. My experience comes from a large number of portfolio projects demonstrating advanced knowledge of many technologies—take a look at some of what I've done!
+Hi! I'm currently a junior working towards a B.S. in Computer Science at Colorado School of Mines. I'm a passionate computer science student looking to apply my skillset towards complex challenges in industry. My experience comes from previous internships and a large number of portfolio projects demonstrating advanced knowledge of many technologies—take a look at some of what I've done!
 
----
+### Latest experience:
 
-### Find out more
+**ICR, Inc.** May 2023 - Aug 2023\
+Technical Intern, Full-Stack Development \
+*Technologies: Java, Spring, Angular, Typescript, gRPC, REST API,
+MongoDB, Apache Ignite, Docker, Git*
 
-**Portfolio website**: [https://thenathan.space](https://thenathan.space)
+-   Built digital signal processing framework of microservices utilizing
+    Spring, Angular, and Docker to efficiently perform distributed data
+    processing as directed by the user.
 
-**Resume**: [https://thenathan.space/resume](https://thenathan.space/assets/files/Nathan_Panzer_Resume_2023.pdf)
+-   Implemented horizontal scaling of microservices and automatic load
+    balancing of assigned tasks, providing a 300% increase in data
+    processing speed.
+
+-   Built and styled Angular front-end user interface using HTML, CSS,
+    TS/JS. Implemented REST API to serve data and control internal
+    framework services.
 
 ---
 
@@ -36,10 +47,5 @@ Here's a highlight of some of my projects:
 
 ### To-Do:
 
-[ ] Car BPM—store car turn signal BPMs, interface with Spotify account to search through their favorite songs and [get BPM](https://developer.spotify.com/documentation/web-api/reference/#/operations/get-audio-analysis) (will need to cache song BPMs), serve through Flask
-
-[ ] Rank tracks on a Spotify playlist in head-to-head song comparisons using something like the Condorcet method
-
-[ ] Build RESTful API (maybe for Car BPM?)
-
-[ ] Docker
+ - [ ] Finish WebGrader
+ - [ ] Rank tracks on a Spotify playlist in head-to-head song comparisons using something like the Condorcet method to determine their true ranking
