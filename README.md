@@ -6,6 +6,8 @@ LinkedIn: https://www.linkedin.com/in/nathan-panzer/
 
 Contact: `nathan <at> thenathan.space`
 
+Check out my pinned repos below for some of my more impressive personal projects!
+
 ### Current project
 
 **[Spotify Playlist Ranker](https://github.com/TheNathanSpace/SpotifyPlaylistRanker)**
