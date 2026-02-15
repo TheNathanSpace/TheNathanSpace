@@ -12,7 +12,7 @@ alias disk-usage='sudo du -sh ./* | sort -hr'
 
 function denter() {
     if [[ -z \"$1\" ]]; then
-        echo "Usage: denter <container-id>"
+        echo \"Usage: denter <container-id>\"
         return 1
     fi
     docker exec -it \"$1\" bash
@@ -20,7 +20,7 @@ function denter() {
 
 function denter_sh() {
     if [[ -z \"$1\" ]]; then
-        echo "Usage: denter <container-id>"
+        echo \"Usage: denter <container-id>\"
         return 1
     fi
     docker exec -it \"$1\" sh
