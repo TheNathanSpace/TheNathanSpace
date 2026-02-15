@@ -58,7 +58,13 @@ function denter_sh() {
         return 1
     fi
     docker exec -it \"$1\" sh
-}" > ~/.bash_aliases
+}
+
+alias nginx='cd /home/nathan/swag/config/nginx/proxy-confs'
+alias nginx-logs='cd /home/nathan/swag/config/log/nginx'
+alias bans='grep "ban " /home/nathan/swag/config/log/fail2ban/fail2ban.log --ignore-case'
+alias unban='docker exec swag fail2ban-client unban'
+alias fail2ban='cat /home/nathan/swag/config/log/fail2ban/fail2ban.log'" > ~/.bash_aliases
 
 echo "# From Debian .bashrc
 # If not running interactively, don't do anything
