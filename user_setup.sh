@@ -1,6 +1,34 @@
 #!/bin/bash
 
+export RED='\033[0;31m'
+export GREEN='\033[0;32m'
+export YELLOW='\033[0;33m'
+export BLUE='\033[0;34m'
+export NC='\033[0m' # No Color
+
+echo -e "${YELLOW}Here we go!${NC}"
+
+echo -e "${YELLOW}Do you want to install Docker? (y/n): ${NC}"
+read -p "(y/n): " response
+if [[ "$response" == "y" || "$response" == "Y" ]]; then
+    install_docker=true
+else
+    install_docker=false
+fi
+
+echo -e "${YELLOW}Setting up Bash aliases...${NC}"
+
 echo "# From user_setup.sh https://raw.githubusercontent.com/TheNathanSpace/TheNathanSpace/refs/heads/main/user_setup.sh
+if [ -f ~/.debian_bash ]; then
+    . ~/.debian_bash
+fi
+
+export RED='\033[0;31m'
+export GREEN='\033[0;32m'
+export YELLOW='\033[0;33m'
+export BLUE='\033[0;34m'
+export NC='\033[0m' # No Color
+
 alias cls='clear'
 alias la='ls -al'
 
@@ -8,7 +36,13 @@ alias logs='docker logs -f'
 alias dps='docker ps'
 
 alias bashrc='vim ~/.bash_aliases; source ~/.bashrc'
-alias disk-usage='sudo du -sh ./* | sort -hr'
+
+shopt -s dotglob
+if command -v sudo > /dev/null 2>&1; then
+    alias disk-usage='sudo du -sh ./* | sort -hr'
+else
+    alias disk-usage='du -sh ./* | sort -hr'
+fi
 
 function denter() {
     if [[ -z \"$1\" ]]; then
@@ -115,19 +149,32 @@ if ! shopt -oq posix; then
 fi
 " > ~/.debian_bash
 
-echo "if [ -f ~/.debian_bash ]; then
-    . ~/.debian_bash
-fi
+echo "
 if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
 " >> ~/.bashrc
 
-su - -c "apt install sudo; adduser nathan sudo && apt install vim && apt install openssh-server && apt install curl && apt remove $(dpkg --get-selections docker.io docker-compose docker-doc podman-docker containerd runc | cut -f1);"
+echo -e "${YELLOW}Adding user nathan and installing sudo... If nathan does not yet exist, you will be prompted for a password.${NC}"
 
-curl -fsSL https://get.docker.com -o get-docker.sh
-chmod +x get-docker.sh
-sudo sh get-docker.sh
-rm get-docker.sh
+su - -c 'id -u nathan &>/dev/null || (useradd -m -d /home/nathan nathan && passwd nathan); apt install sudo && (getent group sudo | grep -q nathan || adduser nathan sudo)'
+su - nathan
+
+echo -e "${YELLOW}Installing other programs...${NC}"
+sudo apt install vim
+sudo apt install openssh-server
+sudo apt install curl
+
+if [ $install_docker ] then
+    echo -e "${YELLOW}Installing Docker...${NC}"
+    sudo apt remove $(dpkg --get-selections docker.io docker-compose docker-doc podman-docker containerd runc | cut -f1)
+    curl -fsSL https://get.docker.com -o get-docker.sh
+    chmod +x get-docker.sh
+    sudo sh get-docker.sh
+    rm get-docker.sh
+else
+    echo -e "${YELLOW}Skipping Docker install...${NC}"
+fi
 
 source ~/.bashrc
+echo -e "${YELLOW}All done!${NC}"
