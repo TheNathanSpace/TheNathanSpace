@@ -11,19 +11,19 @@ alias bashrc='vim ~/.bash_aliases; source ~/.bashrc'
 alias disk-usage='sudo du -sh ./* | sort -hr'
 
 function denter() {
-    if [[ -z "$1" ]]; then
+    if [[ -z \"$1\" ]]; then
         echo "Usage: denter <container-id>"
         return 1
     fi
-    docker exec -it "$1" bash
+    docker exec -it \"$1\" bash
 }
 
 function denter_sh() {
-    if [[ -z "$1" ]]; then
+    if [[ -z \"$1\" ]]; then
         echo "Usage: denter <container-id>"
         return 1
     fi
-    docker exec -it "$1" sh
+    docker exec -it \"$1\" sh
 }" >> ~/.bash_aliases
 
 su - -c "apt install sudo; adduser nathan sudo; apt install vim; apt install openssh-server;"
@@ -41,7 +41,7 @@ sudo chmod a+r /etc/apt/keyrings/docker.asc
 sudo tee /etc/apt/sources.list.d/docker.sources <<EOF
 Types: deb
 URIs: https://download.docker.com/linux/debian
-Suites: $(. /etc/os-release && echo "$VERSION_CODENAME")
+Suites: $(. /etc/os-release && echo \"$VERSION_CODENAME\")
 Components: stable
 Signed-By: /etc/apt/keyrings/docker.asc
 EOF
