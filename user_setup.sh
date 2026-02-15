@@ -1,6 +1,6 @@
-#!/bin/sh
+#!/bin/bash
 
-echo "# From user_setup.sh
+echo "# From user_setup.sh https://raw.githubusercontent.com/TheNathanSpace/TheNathanSpace/refs/heads/main/user_setup.sh
 alias cls='clear'
 alias la='ls -al'
 
@@ -24,31 +24,12 @@ function denter_sh() {
         return 1
     fi
     docker exec -it \"$1\" sh
-}" >> ~/.bash_aliases
+}" > ~/.bash_aliases
 
-su - -c "apt install sudo; adduser nathan sudo; apt install vim; apt install openssh-server;"
-sudo apt remove $(dpkg --get-selections docker.io docker-compose docker-doc podman-docker containerd runc | cut -f1)
+su - -c "apt install sudo; adduser nathan sudo && apt install vim && apt install openssh-server && apt install curl && apt remove $(dpkg --get-selections docker.io docker-compose docker-doc podman-docker containerd runc | cut -f1);"
 
-echo "# From https://docs.docker.com/engine/install/debian/
-# Add Docker's official GPG key:
-sudo apt update
-sudo apt install ca-certificates curl
-sudo install -m 0755 -d /etc/apt/keyrings
-sudo curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
-sudo chmod a+r /etc/apt/keyrings/docker.asc
+curl -fsSL https://get.docker.com -o get-docker.sh
+chmod +x get-docker.sh
+sudo sh get-docker.sh
 
-# Add the repository to Apt sources:
-sudo tee /etc/apt/sources.list.d/docker.sources <<EOF
-Types: deb
-URIs: https://download.docker.com/linux/debian
-Suites: $(. /etc/os-release && echo \"$VERSION_CODENAME\")
-Components: stable
-Signed-By: /etc/apt/keyrings/docker.asc
-EOF
-
-sudo apt update
-sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-getent group somegroupname || groupadd somegroupname
-sudo usermod -a -G docker nathan" > install_docker.sh
-chmod +x install_docker.sh
-./install_docker.sh
+source ~/.bashrc
