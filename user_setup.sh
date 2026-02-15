@@ -31,5 +31,6 @@ su - -c "apt install sudo; adduser nathan sudo && apt install vim && apt install
 curl -fsSL https://get.docker.com -o get-docker.sh
 chmod +x get-docker.sh
 sudo sh get-docker.sh
+rm get-docker.sh
 
 source ~/.bashrc
