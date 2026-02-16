@@ -189,7 +189,8 @@ sudo apt install -y git
 if [[ $install_docker == true ]]
 then
     echo -e "${YELLOW}Installing Docker...${NC}"
-    sudo apt remove $(dpkg --get-selections docker.io docker-compose docker-doc podman-docker containerd runc | cut -f1)
+    sudo apt remove -y $(dpkg --get-selections docker.io docker-compose docker-doc podman-docker containerd runc | cut -f1)
+	sudo apt purge -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin docker-ce-rootless-extras
     sudo rm -rf /var/lib/docker
     sudo rm -rf /var/lib/containerd
     sudo rm /etc/apt/sources.list.d/docker.sources
@@ -198,6 +199,8 @@ then
     chmod +x get-docker.sh
     sudo sh get-docker.sh
     rm get-docker.sh
+	sudo groupadd docker
+	sudo usermod -aG docker nathan
 else
     echo -e "${YELLOW}Skipping Docker install...${NC}"
 fi
