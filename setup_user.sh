@@ -172,6 +172,7 @@ echo -e "${YELLOW}Installing other programs...${NC}"
 sudo apt install vim
 sudo apt install openssh-server
 sudo apt install curl
+sudo apt install avahi-daemon
 
 if [ $install_docker ]
 then
