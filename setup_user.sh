@@ -175,8 +175,8 @@ echo -e "${YELLOW}First, you will be prompted for the root password.${NC}"
 su - -c 'id -u nathan &>/dev/null || (useradd -m -d /home/nathan nathan && echo -e "\033[0;33mThen, you will be prompted for a new password for nathan.\033[0m" && passwd nathan); apt install -y sudo && (getent group sudo | grep -q nathan || adduser nathan sudo)'
 
 echo -e "${YELLOW}Switching to the nathan user. You will be prompted for the user password.${NC}"
-su - nathan
 
+sudo -i -u nathan bash << EOF
 echo -e "${YELLOW}Installing other programs...${NC}"
 sudo apt update 
 sudo apt upgrade -y
@@ -186,10 +186,14 @@ sudo apt install -y curl
 sudo apt install -y avahi-daemon
 sudo apt install -y git
 
-if [ $install_docker ]
+if [[ $install_docker == true ]]
 then
     echo -e "${YELLOW}Installing Docker...${NC}"
     sudo apt remove $(dpkg --get-selections docker.io docker-compose docker-doc podman-docker containerd runc | cut -f1)
+    sudo rm -rf /var/lib/docker
+    sudo rm -rf /var/lib/containerd
+    sudo rm /etc/apt/sources.list.d/docker.sources
+    sudo rm /etc/apt/keyrings/docker.asc
     curl -fsSL https://get.docker.com -o get-docker.sh
     chmod +x get-docker.sh
     sudo sh get-docker.sh
@@ -200,3 +204,4 @@ fi
 
 source ~/.bashrc
 echo -e "${YELLOW}All done!${NC}"
+EOF
