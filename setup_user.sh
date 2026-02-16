@@ -170,18 +170,22 @@ if [ -f ~/.bash_aliases ]; then
 fi
 ' >> ~/.bashrc
 
+apt update
+apt upgrade -y
+
 echo -e "${YELLOW}Adding user nathan and installing sudo...${NC}"
 echo -e "${YELLOW}First, you will be prompted for the root password.${NC}"
-su - -c 'id -u nathan &>/dev/null || (useradd -m -d /home/nathan nathan && echo -e "\033[0;33mThen, you will be prompted for a new password for nathan.\033[0m" && passwd nathan); apt install sudo && (getent group sudo | grep -q nathan || adduser nathan sudo)'
+su - -c 'id -u nathan &>/dev/null || (useradd -m -d /home/nathan nathan && echo -e "\033[0;33mThen, you will be prompted for a new password for nathan.\033[0m" && passwd nathan); apt install -y sudo && (getent group sudo | grep -q nathan || adduser nathan sudo)'
 
 echo -e "${YELLOW}Switching to the nathan user. You will be prompted for the user password.${NC}"
 su - nathan
 
 echo -e "${YELLOW}Installing other programs...${NC}"
-sudo apt install vim
-sudo apt install openssh-server
-sudo apt install curl
-sudo apt install avahi-daemon
+sudo apt install -y vim
+sudo apt install -y openssh-server
+sudo apt install -y curl
+sudo apt install -y avahi-daemon
+sudo apt install -y git
 
 if [ $install_docker ]
 then
