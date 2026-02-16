@@ -31,6 +31,15 @@ export NC='\''\033[0m'\'' # No Color
 
 alias cls='\''clear'\''
 alias la='\''ls -al'\''
+function cda() {
+    if [[ -z "$1" ]]; then
+        target=~
+    else
+        target="$1"
+    fi
+    cd "$target"
+    la
+}
 
 alias logs='\''docker logs -f'\''
 alias dps='\''docker ps'\''
