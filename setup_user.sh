@@ -172,7 +172,7 @@ fi
 
 echo -e "${YELLOW}Adding user nathan and installing sudo...${NC}"
 echo -e "${YELLOW}First, you will be prompted for the root password.${NC}"
-su - -c 'id -u nathan &>/dev/null || (useradd -m -d /home/nathan nathan && echo -e "\033[0;33mThen, you will be prompted for a new password for nathan.\033[0m" && passwd nathan); apt install -y sudo && (getent group sudo | grep -q nathan || adduser nathan sudo)'
+su - -c 'id -u nathan &>/dev/null || (useradd -m -d /home/nathan nathan && echo -e "\033[0;33mThen, you will be prompted for a new password for nathan.\033[0m" && passwd nathan); apt install -y sudo && (groupadd sudo; usermod -aG sudo nathan)'
 
 echo -e "${YELLOW}Switching to the nathan user. You will be prompted for the user password.${NC}"
 
