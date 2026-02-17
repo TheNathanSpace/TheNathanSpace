@@ -183,8 +183,10 @@ sudo apt upgrade -y
 sudo apt install -y vim
 sudo apt install -y openssh-server
 sudo apt install -y curl
-sudo apt install -y avahi-daemon avahi-utils
+sudo apt install -y avahi-daemon
+sudo apt install -y avahi-utils
 sudo apt install -y git
+sudo apt install -y ack
 
 if [[ $install_docker == true ]]
 then
