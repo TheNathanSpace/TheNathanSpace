@@ -190,6 +190,7 @@ sudo apt install -y avahi-daemon
 sudo apt install -y avahi-utils
 sudo apt install -y git
 sudo apt install -y ack
+sudo apt install -y cifs-utils
 
 if [[ $install_docker == true ]]
 then
