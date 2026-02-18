@@ -44,7 +44,7 @@ function cda() {
 alias logs='\''docker logs -f'\''
 alias dps='\''docker ps'\''
 alias dstopall='\''docker stop $(docker ps -a -q)'\''
-alias dremoveall='\''docker rm $(docker ps -a -q); docker network prune'\''
+alias dremoveall='\''docker rm $(docker ps -a -q); docker network prune -f'\''
 
 alias bashrc='\''vim ~/.bash_aliases; source ~/.bashrc'\''
 
