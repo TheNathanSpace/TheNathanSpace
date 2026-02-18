@@ -29,6 +29,8 @@ export YELLOW='\''\033[0;33m'\''
 export BLUE='\''\033[0;34m'\''
 export NC='\''\033[0m'\'' # No Color
 
+export PATH="/sbin:$PATH"
+
 alias cls='\''clear'\''
 alias la='\''ls -al'\''
 function cda() {
@@ -191,8 +193,6 @@ sudo apt install -y avahi-utils
 sudo apt install -y git
 sudo apt install -y ack
 sudo apt install -y cifs-utils
-
-export PATH="/sbin:$PATH"
 
 if [[ $install_docker == true ]]
 then
