@@ -52,6 +52,7 @@ if command -v sudo > /dev/null 2>&1; then
 else
     alias disk-usage='\''du -sh ./* | sort -hr'\''
 fi
+alias interfaces='ip link show'
 
 function denter() {
     if [[ -z "$1" ]]; then
