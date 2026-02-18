@@ -43,6 +43,8 @@ function cda() {
 
 alias logs='\''docker logs -f'\''
 alias dps='\''docker ps'\''
+alias dstopall='\''docker stop $(docker ps -a -q)'\''
+alias dremoveall='\''docker rm $(docker ps -a -q)'\''
 
 alias bashrc='\''vim ~/.bash_aliases; source ~/.bashrc'\''
 
@@ -52,7 +54,7 @@ if command -v sudo > /dev/null 2>&1; then
 else
     alias disk-usage='\''du -sh ./* | sort -hr'\''
 fi
-alias interfaces='ip link show'
+alias interfaces='\''ip link show'\''
 
 function denter() {
     if [[ -z "$1" ]]; then
