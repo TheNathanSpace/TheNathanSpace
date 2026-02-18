@@ -192,6 +192,8 @@ sudo apt install -y git
 sudo apt install -y ack
 sudo apt install -y cifs-utils
 
+export PATH="/sbin:$PATH"
+
 if [[ $install_docker == true ]]
 then
     echo -e "${YELLOW}Installing Docker...${NC}"
