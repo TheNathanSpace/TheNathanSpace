@@ -175,6 +175,12 @@ if [ -f ~/.bash_aliases ]; then
 fi
 ' >> ~/.bashrc
 
+echo '
+set shiftwidth=4 smarttab
+set expandtab
+set tabstop=8 softtabstop=0
+' >> ~/.vimrc
+
 echo -e "${YELLOW}Adding user nathan and installing sudo...${NC}"
 echo -e "${YELLOW}First, you will be prompted for the root password.${NC}"
 su - -c 'id -u nathan &>/dev/null || (useradd -m -d /home/nathan nathan && echo -e "\033[0;33mThen, you will be prompted for a new password for nathan.\033[0m" && passwd nathan); apt install -y sudo && (groupadd sudo; usermod -aG sudo nathan)'
