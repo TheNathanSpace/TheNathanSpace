@@ -65,13 +65,26 @@ function denter() {
     fi
     docker exec -it "$1" /bin/bash
 }
-
 function denter_sh() {
     if [[ -z "$1" ]]; then
         echo "Usage: denter <container-id>"
         return 1
     fi
     docker exec -it "$1" /bin/sh
+}
+function dfind_process() {
+    if [[ -z "$1" ]]; then
+        echo "Usage: dfind_process <container-id>"
+        return 1
+    fi
+
+    container_id=$(docker container ls | grep "$1" | awk '{print $1}')
+    if [[ ! "$container_id" ]]; then
+        echo "No container found for name '$1'"
+        return 1
+    fi
+
+    pgrep -f "$container_id"
 }
 
 alias nginx='\''cd /home/nathan/swag/config/nginx/proxy-confs; la *.conf'\''
