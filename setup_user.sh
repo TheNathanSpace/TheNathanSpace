@@ -63,7 +63,7 @@ function denter() {
         echo "Usage: denter <container-id>"
         return 1
     fi
-    docker exec -it "$1" bash
+    docker exec -it "$1" /bin/bash
 }
 
 function denter_sh() {
@@ -71,7 +71,7 @@ function denter_sh() {
         echo "Usage: denter <container-id>"
         return 1
     fi
-    docker exec -it "$1" sh
+    docker exec -it "$1" /bin/sh
 }
 
 alias nginx='\''cd /home/nathan/swag/config/nginx/proxy-confs; la *.conf'\''
