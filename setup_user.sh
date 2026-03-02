@@ -87,6 +87,8 @@ function dfind_process() {
     pgrep -f "$container_id"
 }
 
+alias new-password='\''openssl rand -base64 32'\''
+
 alias nginx='\''cd /home/nathan/swag/config/nginx/proxy-confs; la *.conf'\''
 alias nginx-logs='\''cda /home/nathan/swag/config/log/nginx'\''
 alias bans='\''grep "ban " /home/nathan/swag/config/log/fail2ban/fail2ban.log --ignore-case'\''
