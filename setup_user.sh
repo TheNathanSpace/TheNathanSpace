@@ -93,7 +93,6 @@ function format() {
         return 1
     fi
     yq -i --indent 4 '.' "$1"
-    #awk '/^[a-zA-Z]/ && NR > 1 && prev !~ /^$/ {print ""} {print; prev=$0}' "$1"
     awk '/^[a-zA-Z]/ && NR > 1 && prev !~ /^$/ {print ""} /^    [a-zA-Z]/ && prev !~ /^$/ && ++count > 2 {print ""} {print; prev=$0}' "$1" > "$1.tmp" && mv "$1.tmp" "$1"
 }
 
