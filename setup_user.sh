@@ -29,7 +29,7 @@ export YELLOW='\''\033[0;33m'\''
 export BLUE='\''\033[0;34m'\''
 export NC='\''\033[0m'\'' # No Color
 
-export PATH="/sbin:$PATH"
+export PATH="$PATH:/sbin:/home/nathan/bin"
 
 alias cls='\''clear'\''
 alias la='\''ls -al'\''
