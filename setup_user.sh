@@ -87,6 +87,16 @@ function dfind_process() {
     pgrep -f "$container_id"
 }
 
+function format() {
+    if [[ -z "$1" ]]; then
+        echo "Usage: format <file>"
+        return 1
+    fi
+    yq -i --indent 4 '.' "$1"
+    #awk '/^[a-zA-Z]/ && NR > 1 && prev !~ /^$/ {print ""} {print; prev=$0}' "$1"
+    awk '/^[a-zA-Z]/ && NR > 1 && prev !~ /^$/ {print ""} /^    [a-zA-Z]/ && prev !~ /^$/ && ++count > 2 {print ""} {print; prev=$0}' "$1" > "$1.tmp" && mv "$1.tmp" "$1"
+}
+
 alias new-password='\''openssl rand -base64 32'\''
 
 alias nginx='\''cd /home/nathan/swag/config/nginx/proxy-confs; la *.conf'\''
@@ -209,11 +219,14 @@ sudo apt upgrade -y
 sudo apt install -y vim
 sudo apt install -y openssh-server
 sudo apt install -y curl
-sudo apt install -y avahi-daemon
-sudo apt install -y avahi-utils
+sudo apt install -y avahi-daemon # For publishing mDNS
+sudo apt install -y avahi-utils # For debugging mDNS
 sudo apt install -y git
-sudo apt install -y ack
-sudo apt install -y cifs-utils
+sudo apt install -y ack # Fancier grep
+sudo apt install -y cifs-utils # For mounting NAS
+
+# Install yq prettier - https://github.com/mikefarah/yq
+sudo wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && sudo chmod +x /usr/local/bin/yq
 
 if [[ $install_docker == true ]]
 then
