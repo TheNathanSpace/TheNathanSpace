@@ -48,6 +48,9 @@ alias dps='\''docker ps'\''
 alias dstopall='\''docker stop $(docker ps -a -q)'\''
 alias dremoveall='\''docker rm $(docker ps -a -q); docker network prune -f'\''
 
+alias ga='\''git status'\''
+alias gb='\''git branch -a'\''
+
 alias bashrc='\''vim ~/.bash_aliases; source ~/.bashrc'\''
 
 shopt -s dotglob
