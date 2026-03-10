@@ -50,6 +50,7 @@ alias dremoveall='\''docker rm $(docker ps -a -q); docker network prune -f'\''
 
 alias ga='\''git status'\''
 alias gb='\''git branch -a'\''
+alias gl='\''git log --oneline'\''
 
 alias bashrc='\''vim ~/.bash_aliases; source ~/.bashrc'\''
 
