@@ -62,6 +62,16 @@ else
 fi
 alias interfaces='\''ip link show'\''
 
+function find-file() {
+    if [ -z "$1" ]; then
+        echo "Usage: find-file <phrase> [directory]"
+        return 1
+    fi
+
+    local search_dir="${2:-.}"
+    find "$search_dir" -iname "*$1*"
+}
+
 function denter() {
     if [[ -z "$1" ]]; then
         echo "Usage: denter <container-id>"
