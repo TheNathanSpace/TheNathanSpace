@@ -237,6 +237,7 @@ sudo apt install -y avahi-utils # For debugging mDNS
 sudo apt install -y git
 sudo apt install -y ack # Fancier grep
 sudo apt install -y cifs-utils # For mounting NAS
+sudo apt install -y tree
 
 # Install yq prettier - https://github.com/mikefarah/yq
 sudo wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && sudo chmod +x /usr/local/bin/yq
