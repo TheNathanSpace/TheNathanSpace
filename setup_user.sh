@@ -239,6 +239,7 @@ sudo apt install -y ack # Fancier grep
 sudo apt install -y cifs-utils # For mounting NAS
 sudo apt install -y tree
 sudo apt install -y jq
+sudo apt install -y rsync
 
 # Install yq prettier - https://github.com/mikefarah/yq
 sudo wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && sudo chmod +x /usr/local/bin/yq
