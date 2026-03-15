@@ -16,6 +16,50 @@ else
     install_docker=false
 fi
 
+echo -e "${YELLOW}Adding user nathan and installing sudo...${NC}"
+echo -e "${YELLOW}First, you will be prompted for the root password.${NC}"
+su - -c 'id -u nathan &>/dev/null || (useradd -m -d /home/nathan nathan && echo -e "\033[0;33mThen, you will be prompted for a new password for nathan.\033[0m" && passwd nathan); apt install -y sudo && (groupadd sudo; usermod -aG sudo nathan)'
+
+echo -e "${YELLOW}Switching to the nathan user. You will be prompted for the user password.${NC}"
+
+sudo -i -u nathan bash << EOF
+echo -e "${YELLOW}Installing other programs...${NC}"
+sudo apt update 
+sudo apt upgrade -y
+sudo apt install -y vim
+sudo apt install -y openssh-server
+sudo apt install -y curl
+sudo apt install -y avahi-daemon # For publishing mDNS
+sudo apt install -y avahi-utils # For debugging mDNS
+sudo apt install -y git
+sudo apt install -y ack # Fancier grep
+sudo apt install -y cifs-utils # For mounting NAS
+sudo apt install -y tree
+sudo apt install -y jq
+sudo apt install -y rsync
+
+# Install yq prettier - https://github.com/mikefarah/yq
+sudo wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && sudo chmod +x /usr/local/bin/yq
+
+if [[ $install_docker == true ]]
+then
+    echo -e "${YELLOW}Installing Docker...${NC}"
+    sudo apt remove -y $(dpkg --get-selections docker.io docker-compose docker-doc podman-docker containerd runc | cut -f1)
+	sudo apt purge -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin docker-ce-rootless-extras
+    sudo rm -rf /var/lib/docker
+    sudo rm -rf /var/lib/containerd
+    sudo rm /etc/apt/sources.list.d/docker.sources
+    sudo rm /etc/apt/keyrings/docker.asc
+    curl -fsSL https://get.docker.com -o get-docker.sh
+    chmod +x get-docker.sh
+    sudo sh get-docker.sh
+    rm get-docker.sh
+	sudo groupadd docker
+	sudo usermod -aG docker nathan
+else
+    echo -e "${YELLOW}Skipping Docker install...${NC}"
+fi
+
 echo -e "${YELLOW}Setting up Bash aliases...${NC}"
 
 echo '# From user_setup.sh https://raw.githubusercontent.com/TheNathanSpace/TheNathanSpace/refs/heads/main/user_setup.sh
@@ -205,64 +249,37 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
-' > ~/.debian_bash
+' > /home/nathan/.debian_bash
 
 echo '
 if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
-' >> ~/.bashrc
+' >> /home/nathan/.bashrc
 
 echo '
 set shiftwidth=4 smarttab
 set expandtab
 set tabstop=8 softtabstop=0
-' >> ~/.vimrc
+' >> /home/nathan/.vimrc
 
-echo -e "${YELLOW}Adding user nathan and installing sudo...${NC}"
-echo -e "${YELLOW}First, you will be prompted for the root password.${NC}"
-su - -c 'id -u nathan &>/dev/null || (useradd -m -d /home/nathan nathan && echo -e "\033[0;33mThen, you will be prompted for a new password for nathan.\033[0m" && passwd nathan); apt install -y sudo && (groupadd sudo; usermod -aG sudo nathan)'
+echo -e "${YELLOW}Setting up executables...${NC}"
+mkdir /home/nathan/bin
 
-echo -e "${YELLOW}Switching to the nathan user. You will be prompted for the user password.${NC}"
+echo '
+#!/bin/bash
+sudo mount -t cifs //192.168.1.4/CHOOSE_SHARED_FOLDER /home/nathan/CHOOSE_MOUNT_LOCATION -o credentials=/home/nathan/.smbcredentials,uid=1000,gid=1000,vers=3.0
+' > /home/nathan/bin/mount-nas.sh
+chmod +x /home/nathan/bin/mount-nas.sh
 
-sudo -i -u nathan bash << EOF
-echo -e "${YELLOW}Installing other programs...${NC}"
-sudo apt update 
-sudo apt upgrade -y
-sudo apt install -y vim
-sudo apt install -y openssh-server
-sudo apt install -y curl
-sudo apt install -y avahi-daemon # For publishing mDNS
-sudo apt install -y avahi-utils # For debugging mDNS
-sudo apt install -y git
-sudo apt install -y ack # Fancier grep
-sudo apt install -y cifs-utils # For mounting NAS
-sudo apt install -y tree
-sudo apt install -y jq
-sudo apt install -y rsync
+echo '
+#!/bin/bash
+sudo umount /home/nathan/CHOOSE_MOUNT_LOCATION
+' > /home/nathan/bin/mount-nas.sh
+chmod +x /home/nathan/bin/unmount-nas.sh
 
-# Install yq prettier - https://github.com/mikefarah/yq
-sudo wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && sudo chmod +x /usr/local/bin/yq
+echo -e "${YELLOW}You will want to change the NAS directories mounted in ~/bin/mount-nas.sh and ~/bin/unmount-nas.sh.${NC}"
 
-if [[ $install_docker == true ]]
-then
-    echo -e "${YELLOW}Installing Docker...${NC}"
-    sudo apt remove -y $(dpkg --get-selections docker.io docker-compose docker-doc podman-docker containerd runc | cut -f1)
-	sudo apt purge -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin docker-ce-rootless-extras
-    sudo rm -rf /var/lib/docker
-    sudo rm -rf /var/lib/containerd
-    sudo rm /etc/apt/sources.list.d/docker.sources
-    sudo rm /etc/apt/keyrings/docker.asc
-    curl -fsSL https://get.docker.com -o get-docker.sh
-    chmod +x get-docker.sh
-    sudo sh get-docker.sh
-    rm get-docker.sh
-	sudo groupadd docker
-	sudo usermod -aG docker nathan
-else
-    echo -e "${YELLOW}Skipping Docker install...${NC}"
-fi
-
-source ~/.bashrc
+source /home/nathan/.bashrc
 echo -e "${YELLOW}All done!${NC}"
 EOF
