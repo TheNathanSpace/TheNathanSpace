@@ -22,21 +22,11 @@ su - -c 'id -u nathan &>/dev/null || (useradd -m -d /home/nathan nathan && echo 
 
 echo -e "${YELLOW}Switching to the nathan user. You will be prompted for the user password.${NC}"
 
-sudo -i -u nathan bash << EOF
+sudo -i -u nathan bash << 'EOF'
 echo -e "${YELLOW}Installing other programs...${NC}"
 sudo apt update 
-sudo apt upgrade -y
-sudo apt install -y vim
-sudo apt install -y openssh-server
-sudo apt install -y curl
-sudo apt install -y avahi-daemon # For publishing mDNS
-sudo apt install -y avahi-utils # For debugging mDNS
-sudo apt install -y git
-sudo apt install -y ack # Fancier grep
-sudo apt install -y cifs-utils # For mounting NAS
-sudo apt install -y tree
-sudo apt install -y jq
-sudo apt install -y rsync
+sudo apt upgrade -y 
+sudo apt install -y vim openssh-server curl avahi-daemon avahi-utils git ack cifs-utils tree jq rsync
 
 # Install yq prettier - https://github.com/mikefarah/yq
 sudo wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && sudo chmod +x /usr/local/bin/yq
@@ -62,21 +52,22 @@ fi
 
 echo -e "${YELLOW}Setting up Bash aliases...${NC}"
 
-echo '# From user_setup.sh https://raw.githubusercontent.com/TheNathanSpace/TheNathanSpace/refs/heads/main/user_setup.sh
+cat << 'BASHALIAS' > /home/nathan/.bash_aliases
+# From user_setup.sh https://raw.githubusercontent.com/TheNathanSpace/TheNathanSpace/refs/heads/main/user_setup.sh
 if [ -f ~/.debian_bash ]; then
     . ~/.debian_bash
 fi
 
-export RED='\''\033[0;31m'\''
-export GREEN='\''\033[0;32m'\''
-export YELLOW='\''\033[0;33m'\''
-export BLUE='\''\033[0;34m'\''
-export NC='\''\033[0m'\'' # No Color
+export RED='\033[0;31m'
+export GREEN='\033[0;32m'
+export YELLOW='\033[0;33m'
+export BLUE='\033[0;34m'
+export NC='\033[0m' # No Color
 
 export PATH="$PATH:/sbin:/home/nathan/bin"
 
-alias cls='\''clear'\''
-alias la='\''ls -al'\''
+alias cls='clear'
+alias la='ls -al'
 function cda() {
     if [[ -z "$1" ]]; then
         target=~
@@ -87,24 +78,24 @@ function cda() {
     la
 }
 
-alias logs='\''docker logs -f'\''
-alias dps='\''docker ps'\''
-alias dstopall='\''docker stop $(docker ps -a -q)'\''
-alias dremoveall='\''docker rm $(docker ps -a -q); docker network prune -f'\''
+alias logs='docker logs -f'
+alias dps='docker ps'
+alias dstopall='docker stop $(docker ps -a -q)'
+alias dremoveall='docker rm $(docker ps -a -q); docker network prune -f'
 
-alias ga='\''git status'\''
-alias gb='\''git branch -a'\''
-alias gl='\''git log --oneline'\''
+alias ga='git status'
+alias gb='git branch -a'
+alias gl='git log --oneline'
 
-alias bashrc='\''vim ~/.bash_aliases; source ~/.bashrc'\''
+alias bashrc='vim ~/.bash_aliases; source ~/.bashrc'
 
 shopt -s dotglob
 if command -v sudo > /dev/null 2>&1; then
-    alias disk-usage='\''sudo du -sh ./* | sort -hr'\''
+    alias disk-usage='sudo du -sh ./* | sort -hr'
 else
-    alias disk-usage='\''du -sh ./* | sort -hr'\''
+    alias disk-usage='du -sh ./* | sort -hr'
 fi
-alias interfaces='\''ip link show'\''
+alias interfaces='ip link show'
 
 function find-file() {
     if [ -z "$1" ]; then
@@ -154,26 +145,28 @@ function format() {
     awk '/^[a-zA-Z]/ && NR > 1 && prev !~ /^$/ {print ""} /^    [a-zA-Z]/ && prev !~ /^$/ && ++count > 2 {print ""} {print; prev=$0}' "$1" > "$1.tmp" && mv "$1.tmp" "$1"
 }
 
-alias new-password='\''openssl rand -base64 32'\''
+alias new-password='openssl rand -base64 32'
 
-alias nginx='\''cd /home/nathan/swag/config/nginx/proxy-confs; la *.conf'\''
-alias nginx-logs='\''cda /home/nathan/swag/config/log/nginx'\''
-alias bans='\''grep "ban " /home/nathan/swag/config/log/fail2ban/fail2ban.log --ignore-case'\''
-alias unban='\''docker exec swag fail2ban-client unban'\''
-alias fail2ban='\''cat /home/nathan/swag/config/log/fail2ban/fail2ban.log'\''' > ~/.bash_aliases
+alias nginx='cd /home/nathan/swag/config/nginx/proxy-confs; la *.conf'
+alias nginx-logs='cda /home/nathan/swag/config/log/nginx'
+alias bans='grep "ban " /home/nathan/swag/config/log/fail2ban/fail2ban.log --ignore-case'
+alias unban='docker exec swag fail2ban-client unban'
+alias fail2ban='cat /home/nathan/swag/config/log/fail2ban/fail2ban.log'
+BASHALIAS
 
-echo '# From Debian .bashrc
-# If not running interactively, don'\''t do anything
+cat << 'DEBIANBASH' > /home/nathan/.debian_bash
+# From Debian .bashrc
+# If not running interactively, don't do anything
 case $- in
     *i*) ;;
       *) return;;
 esac
 
-# don'\''t put duplicate lines or lines starting with space in the history.
+# don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
 HISTCONTROL=ignoreboth
 
-# append to the history file, don'\''t overwrite it
+# append to the history file, don't overwrite it
 shopt -s histappend
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
@@ -183,7 +176,6 @@ HISTFILESIZE=2000
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
-
 
 # set variable identifying the chroot you work in (used in the prompt below)
 if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
@@ -199,7 +191,7 @@ force_color_prompt=yes
 
 if [ -n "$force_color_prompt" ]; then
     if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-        # We have color support; assume it'\''s compliant with Ecma-48
+        # We have color support; assume it's compliant with Ecma-48
         # (ISO/IEC-6429). (Lack of such support is extremely rare, and such
         # a case would tend to support setf rather than setaf.)
         color_prompt=yes
@@ -209,9 +201,9 @@ if [ -n "$force_color_prompt" ]; then
 fi
 
 if [ "$color_prompt" = yes ]; then
-    PS1='\''${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '\''
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
 else
-    PS1='\''${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '\''
+    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 fi
 unset color_prompt force_color_prompt
 
@@ -227,20 +219,20 @@ esac
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-    alias ls='\''ls --color=auto'\''
-    alias dir='\''dir --color=auto'\''
-    alias vdir='\''vdir --color=auto'\''
+    alias ls='ls --color=auto'
+    alias dir='dir --color=auto'
+    alias vdir='vdir --color=auto'
 
-    alias grep='\''grep --color=auto'\''
-    alias fgrep='\''fgrep --color=auto'\''
-    alias egrep='\''egrep --color=auto'\''
+    alias grep='grep --color=auto'
+    alias fgrep='fgrep --color=auto'
+    alias egrep='egrep --color=auto'
 fi
 
 # colored GCC warnings and errors
-export GCC_COLORS='\''error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'\''
+export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
-# enable programmable completion features (you don'\''t need to enable
-# this, if it'\''s already enabled in /etc/bash.bashrc and /etc/profile
+# enable programmable completion features (you don't need to enable
+# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
 if ! shopt -oq posix; then
   if [ -f /usr/share/bash-completion/bash_completion ]; then
@@ -249,37 +241,40 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
-' > /home/nathan/.debian_bash
+DEBIANBASH
 
-echo '
+cat << 'BASHRC' >> /home/nathan/.bashrc
 if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
-' >> /home/nathan/.bashrc
+BASHRC
 
-echo '
+cat << 'VIMRC' >> /home/nathan/.vimrc
 set shiftwidth=4 smarttab
 set expandtab
 set tabstop=8 softtabstop=0
-' >> /home/nathan/.vimrc
+syntax on
+VIMRC
 
 echo -e "${YELLOW}Setting up executables...${NC}"
 mkdir /home/nathan/bin
 
-echo '
+cat << 'MOUNTNAS' >> /home/nathan/bin/mount-nas.sh
 #!/bin/bash
 sudo mount -t cifs //192.168.1.4/CHOOSE_SHARED_FOLDER /home/nathan/CHOOSE_MOUNT_LOCATION -o credentials=/home/nathan/.smbcredentials,uid=1000,gid=1000,vers=3.0
-' > /home/nathan/bin/mount-nas.sh
+MOUNTNAS
+
 chmod +x /home/nathan/bin/mount-nas.sh
 
-echo '
+cat << 'UNMOUNTNAS' >> /home/nathan/bin/unmount-nas.sh
 #!/bin/bash
 sudo umount /home/nathan/CHOOSE_MOUNT_LOCATION
-' > /home/nathan/bin/mount-nas.sh
-chmod +x /home/nathan/bin/unmount-nas.sh
+UNMOUNTNAS
 
 echo -e "${YELLOW}You will want to change the NAS directories mounted in ~/bin/mount-nas.sh and ~/bin/unmount-nas.sh.${NC}"
 
 source /home/nathan/.bashrc
 echo -e "${YELLOW}All done!${NC}"
 EOF
+
+su nathan
