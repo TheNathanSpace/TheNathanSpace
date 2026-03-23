@@ -276,4 +276,13 @@ source /home/nathan/.bashrc
 echo -e "${YELLOW}All done!${NC}"
 EOF
 
+echo -e "${YELLOW}Copying SSH key from gaming-laptop.local to this machine...${NC}"
+echo -e "${YELLOW}You will be prompted for nathan@gaming-laptop.local's password.${NC}"
+
+MACHINE_A_IP=$(hostname -I | awk '{print $1}')
+
+ssh -t root@gaming-laptop.local "ssh-copy-id nathan@${MACHINE_A_IP}"
+
+echo -e "${GREEN}SSH key copied${NC}"
+
 exec su nathan
