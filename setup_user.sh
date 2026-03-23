@@ -11,9 +11,9 @@ echo -e "${YELLOW}Here we go!${NC}"
 echo -e "${YELLOW}Do you want to install Docker? (y/n): ${NC}"
 read -p "(y/n): " response
 if [[ "$response" == "y" || "$response" == "Y" ]]; then
-    install_docker=true
+    export install_docker=true
 else
-    install_docker=false
+    export install_docker=false
 fi
 
 echo -e "${YELLOW}Adding user nathan and installing sudo...${NC}"
@@ -31,8 +31,7 @@ sudo apt install -y vim openssh-server curl avahi-daemon avahi-utils git ack cif
 # Install yq prettier - https://github.com/mikefarah/yq
 sudo wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && sudo chmod +x /usr/local/bin/yq
 
-if [[ $install_docker == true ]]
-then
+if [[ "${INSTALL_DOCKER}" == "true" ]]; then
     echo -e "${YELLOW}Installing Docker...${NC}"
     sudo apt remove -y $(dpkg --get-selections docker.io docker-compose docker-doc podman-docker containerd runc | cut -f1)
 	sudo apt purge -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin docker-ce-rootless-extras
@@ -263,13 +262,13 @@ cat << 'MOUNTNAS' >> /home/nathan/bin/mount-nas.sh
 #!/bin/bash
 sudo mount -t cifs //192.168.1.4/CHOOSE_SHARED_FOLDER /home/nathan/CHOOSE_MOUNT_LOCATION -o credentials=/home/nathan/.smbcredentials,uid=1000,gid=1000,vers=3.0
 MOUNTNAS
-
 chmod +x /home/nathan/bin/mount-nas.sh
 
 cat << 'UNMOUNTNAS' >> /home/nathan/bin/unmount-nas.sh
 #!/bin/bash
 sudo umount /home/nathan/CHOOSE_MOUNT_LOCATION
 UNMOUNTNAS
+chmod +x /home/nathan/bin/unmount-nas.sh
 
 echo -e "${YELLOW}You will want to change the NAS directories mounted in ~/bin/mount-nas.sh and ~/bin/unmount-nas.sh.${NC}"
 
@@ -277,4 +276,4 @@ source /home/nathan/.bashrc
 echo -e "${YELLOW}All done!${NC}"
 EOF
 
-su nathan
+exec su nathan
