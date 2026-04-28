@@ -26,7 +26,7 @@ sudo -i -u nathan bash << 'EOF'
 echo -e "${YELLOW}Installing other programs...${NC}"
 sudo apt update 
 sudo apt upgrade -y 
-sudo apt install -y vim openssh-server curl avahi-daemon avahi-utils git ack cifs-utils tree jq rsync sshfs fuse3 python3 pipx python3-pip python-is-python3
+sudo apt install -y vim openssh-server curl avahi-daemon avahi-utils git ack cifs-utils tree jq rsync sshfs fuse3 python3 pipx python3-pip python-is-python3 qemu-guest-agent
 
 # Install yq prettier - https://github.com/mikefarah/yq
 sudo wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq && sudo chmod +x /usr/local/bin/yq
